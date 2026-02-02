@@ -1,6 +1,6 @@
 # Media Automation Stack
 
-A Docker Compose setup for automated media management running on TrueNAS, with VPN protection via Gluetun.
+A Docker Compose setup for automated media management running on TrueNAS, deployed via Dockge for easy stack management.
 
 ## Services
 
@@ -24,11 +24,17 @@ Before deploying, replace these placeholders in the compose file:
 - `SERVER_HOSTNAMES` - Surfshark server hostname
 - `REPLACE_WITH_VPN_TIMEZONE` - Timezone for FlareSolverr (e.g., America/New_York)
 
-## Deployment
+## Deployment via Dockge
 
-```bash
-docker compose up -d
-```
+This stack is managed through Dockge on TrueNAS:
+
+1. Open Dockge web interface
+2. Create a new stack
+3. Paste the compose.yaml content
+4. Update the configuration placeholders above
+5. Click "Start" to deploy the stack
+
+Dockge provides an easy way to start/stop the entire stack and monitor container logs from a single interface.
 
 ## Access
 
