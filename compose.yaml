@@ -24,9 +24,9 @@ services:
     environment:
       - VPN_SERVICE_PROVIDER=surfshark
       - VPN_TYPE=openvpn
-      - OPENVPN_USER=REPLACE_WITH_USER
-      - OPENVPN_PASSWORD=REPLACE_PASSWORD
-      - SERVER_HOSTNAMES=REPLACE_WITH_URL
+      - OPENVPN_USER=8zur9fcEJF9vHxwkHSJJLdWp
+      - OPENVPN_PASSWORD=FYnWuneAqSqBzcJ4QqW7fR4C
+      - SERVER_HOSTNAMES=us-oma.prod.surfshark.com
       - TZ=America/New_York
       - HTTPPROXY=on
       - SHADOWSOCKS=off
@@ -44,7 +44,7 @@ services:
       - 8191:8191
     environment:
       - LOG_LEVEL=info
-      - TZ=REPLACE_WITH_VPN_TIMEZONE
+      - TZ=America/Omaha
       - BROWSER_TIMEOUT=40000
     networks:
       arr_network:
@@ -110,4 +110,20 @@ services:
       - /mnt/crucialssd/filedump/PlexMedia/Anime:/anime
     depends_on:
       - gluetun
+    restart: unless-stopped
+  doplarr:
+    image: ghcr.io/activexray/doplarr_rs:latest
+    container_name: doplarr
+    network_mode: service:gluetun
+    environment:
+      - SONARR__URL=http://localhost:8989
+      - RADARR__URL=http://localhost:7878
+      - SONARR__API=INSERT_HERE
+      - RADARR__API=INSERT_HERE
+      - DISCORD__TOKEN=INSERT_HERE
+      - TZ=America/New_York
+    depends_on:
+      - gluetun
+      - sonarr
+      - radarr
     restart: unless-stopped
