@@ -10,6 +10,7 @@ A Docker Compose setup for automated media management running on TrueNAS, deploy
 - **Radarr** - Movie collection manager on port 7878
 - **Sonarr** - TV show collection manager on port 8989
 - **FlareSolverr** - Cloudflare bypass proxy on port 8191
+- **Doplarr** - Discord requesting bot
 
 ## Network Architecture
 
