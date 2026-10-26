@@ -20,6 +20,7 @@ services:
       - 9696:9696 # Prowlarr
       - 7878:7878 # Radarr
       - 8989:8989 # Sonarr
+      - 11011:11011 # Cleanuparr
       - 8888:8888 # Gluetun HTTP proxy
     environment:
       - VPN_SERVICE_PROVIDER=surfshark
@@ -124,6 +125,24 @@ services:
       - TZ=America/New_York
     depends_on:
       - gluetun
+      - sonarr
+      - radarr
+    restart: unless-stopped
+  cleanuparr:
+    image: ghcr.io/cleanuparr/cleanuparr:latest
+    container_name: cleanuparr
+    network_mode: service:gluetun
+    environment:
+      - PUID=568
+      - PGID=568
+      - UMASK=022
+      - TZ=America/New_York
+      - PORT=11011
+    volumes:
+      - /mnt/crucialssd/cleanuparr:/config
+    depends_on:
+      - gluetun
+      - qbittorrent
       - sonarr
       - radarr
     restart: unless-stopped
