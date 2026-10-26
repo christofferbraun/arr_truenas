@@ -140,6 +140,7 @@ services:
       - PORT=11011
     volumes:
       - /mnt/crucialssd/cleanuparr:/config
+      - /mnt/crucialssd/downloads:/downloads
     depends_on:
       - gluetun
       - qbittorrent
