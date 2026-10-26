@@ -25,8 +25,8 @@ services:
     environment:
       - VPN_SERVICE_PROVIDER=surfshark
       - VPN_TYPE=openvpn
-      - OPENVPN_USER=8zur9fcEJF9vHxwkHSJJLdWp
-      - OPENVPN_PASSWORD=FYnWuneAqSqBzcJ4QqW7fR4C
+      - OPENVPN_USER=INSERT_HERE
+      - OPENVPN_PASSWORD=INSERT_HERE
       - SERVER_HOSTNAMES=us-oma.prod.surfshark.com
       - TZ=America/New_York
       - HTTPPROXY=on
