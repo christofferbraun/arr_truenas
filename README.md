@@ -44,9 +44,34 @@ Cleanuparr shares Gluetun's network, so every service is reachable on `localhost
 
 1. **Download Clients** - add qBittorrent at `http://localhost:8080` with your WebUI username/password
 2. **Arrs** - add Sonarr at `http://localhost:8989` and Radarr at `http://localhost:7878` with their API keys (Settings > General in each app)
-3. **Malware Blocker** - enable it, turn on the built-in blocklist, and add any extra extensions to block (e.g. `*.exe`, `*.scr`, `*.lnk`, `*.bat`, `*.zipx`). Make sure "delete known malware" / remove-when-nothing-left is on so bad torrents are blocklisted
+3. **Malware Blocker** - enable it and point Sonarr and Radarr at their blocklists (see below). Make sure "delete known malware" / remove-when-nothing-left is on so bad torrents are blocklisted
 4. **Queue Cleaner** - enable "Failed Imports" with a low strike count (1-3) so anything Sonarr/Radarr refuses to import is removed and blocklisted
 5. **Search** - make sure searching for a replacement after removal is enabled
+
+### Blocklists
+
+[blocklists/](blocklists/) holds the Malware Blocker blacklists, one per arr: `sonarr.txt` and `radarr.txt`. One pattern per line, no comments. `*.exe` matches names ending in `.exe`; `regex:<pattern>` is also supported. Matching files are skipped in qBittorrent, and a torrent with nothing left is removed, blocklisted and re-searched.
+
+Copy them to TrueNAS under Cleanuparr's config folder (`/mnt/crucialssd/cleanuparr/blocklists/`, which is `/config/blocklists/` inside the container):
+
+```sh
+# From this repo on your PC
+scp blocklists/*.txt truenas_admin@192.168.1.202:/tmp/
+
+# On TrueNAS
+sudo mkdir -p /mnt/crucialssd/cleanuparr/blocklists
+sudo mv /tmp/sonarr.txt /tmp/radarr.txt /mnt/crucialssd/cleanuparr/blocklists/
+sudo chown -R 568:568 /mnt/crucialssd/cleanuparr/blocklists
+```
+
+In Cleanuparr > Malware Blocker, set for each arr:
+
+| Arr    | Blocklist Path                   | Blocklist Type |
+|--------|----------------------------------|----------------|
+| Sonarr | `/config/blocklists/sonarr.txt`  | Blacklist      |
+| Radarr | `/config/blocklists/radarr.txt`  | Blacklist      |
+
+After editing a list, copy it over again and restart Cleanuparr.
 
 ## Access
 
