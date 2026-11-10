@@ -66,7 +66,8 @@ services:
       - /mnt/crucialssd/qbittorrent/config:/config
       - /mnt/crucialssd/downloads:/downloads
     depends_on:
-      - gluetun
+      gluetun:
+        condition: service_healthy
     restart: unless-stopped
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
@@ -79,7 +80,8 @@ services:
     volumes:
       - /mnt/crucialssd/prowlarr:/config
     depends_on:
-      - gluetun
+      gluetun:
+        condition: service_healthy
     restart: unless-stopped
   radarr:
     image: lscr.io/linuxserver/radarr:latest
@@ -94,7 +96,8 @@ services:
       - /mnt/crucialssd/downloads:/downloads
       - /mnt/crucialssd/filedump/PlexMedia/Movies:/movies
     depends_on:
-      - gluetun
+      gluetun:
+        condition: service_healthy
     restart: unless-stopped
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
@@ -110,7 +113,8 @@ services:
       - /mnt/crucialssd/filedump/PlexMedia/TV:/tv
       - /mnt/crucialssd/filedump/PlexMedia/Anime:/anime
     depends_on:
-      - gluetun
+      gluetun:
+        condition: service_healthy
     restart: unless-stopped
   doplarr:
     image: ghcr.io/activexray/doplarr_rs:latest
@@ -124,9 +128,12 @@ services:
       - DISCORD__TOKEN=INSERT_HERE
       - TZ=America/New_York
     depends_on:
-      - gluetun
-      - sonarr
-      - radarr
+      gluetun:
+        condition: service_healthy
+      sonarr:
+        condition: service_started
+      radarr:
+        condition: service_started
     restart: unless-stopped
   cleanuparr:
     image: ghcr.io/cleanuparr/cleanuparr:latest
@@ -142,8 +149,13 @@ services:
       - /mnt/crucialssd/cleanuparr:/config
       - /mnt/crucialssd/downloads:/downloads
     depends_on:
-      - gluetun
-      - qbittorrent
-      - sonarr
-      - radarr
+    depends_on:
+      gluetun:
+        condition: service_healthy
+      qbittorrent:
+        condition: service_started
+      sonarr:
+        condition: service_started
+      radarr:
+        condition: service_started
     restart: unless-stopped
